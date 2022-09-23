@@ -18,14 +18,17 @@ button.addEventListener('click',(e)=>{
    if(price.value=='' || desc.value=='' || categoryval==''){
     alert('Please enter the value')
    }else{
-      expenseObj={
-        price:price.value,
-        description:desc.value,
-        category:categoryval
-      }
+ 
+        expenseObj={
+            price:price.value,
+            description:desc.value,
+            category:categoryval
+          }
+    
+          localStorage.setItem(`expense${desc.value}`,JSON.stringify(expenseObj))
+          displayExpense(expenseObj)
+ 
 
-      localStorage.setItem(`expense${desc.value}`,JSON.stringify(expenseObj))
-      displayExpense(expenseObj)
     }
 })
 
@@ -96,17 +99,16 @@ function deleteExpense(id){
 }
 
 function editExpense(id){
-    let item=JSON.parse(localStorage.getItem(id))
-    console.log(item.price)
-    let price=document.querySelector('#price')
-    price.value=item.price
-    let des=document.getElementById('description')
-    des.value=item.description
+ console.log(id)
+ let item=JSON.parse(localStorage.getItem(id))
+ console.log(item.price)
+ let price=document.querySelector('#price')
+ price.value=item.price
+ let des=document.getElementById('description')
+ des.value=item.description
 
-  let expenseLi=document.getElementById(id)
-  expenseLi.innerHTML=`${item.description} ${item.price}`
-
-
+let expenseLi=document.getElementById(id)
+expenseLi.innerHTML=`${item.description} ${item.price} -  ${item.category}`
 }
 
 
