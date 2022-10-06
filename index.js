@@ -4,6 +4,7 @@ let category=document.getElementById('category')
 let button=document.querySelector('.btn')
 let allExpense=[]
 let expenseObj={}
+let edit=false
 
 let categoryval=''
 category.onchange=function(evt){
@@ -36,42 +37,12 @@ button.addEventListener('click',(e)=>{
 document.addEventListener('DOMContentLoaded',()=>{
     Object.keys(localStorage).forEach(function(keys){
         let expense=JSON.parse(localStorage.getItem(keys))
-        allExpense.push(expense)
-        console.log(allExpense)
+        displayExpense(expense)
+        // allExpense.push(expense)
+        // console.log(allExpense)
     })
 
-    allExpense.forEach((expense)=>{
-        let expenseList= document.getElementById('list')
 
-        
-let expenseLi=document.createElement('li')
-expenseLi.id=`expense${expense.description}`
-if(expense.category != null){
-    expenseLi.appendChild(document.createTextNode(`${expense.description}  ${expense.price} - ${expense.category}`))
-
-}else{
-    expenseLi.appendChild(document.createTextNode(`${expense.description}  ${expense.price}`))
-
-}
-
-let deleteBtn=document.createElement('button')
-deleteBtn.appendChild(document.createTextNode('Delete'))
-
-let editBtn=document.createElement('button')
-editBtn.appendChild(document.createTextNode('Edit'))
-
-expenseLi.appendChild(deleteBtn)
-expenseLi.appendChild(editBtn)
-
-deleteBtn.onclick=function(){
-    localStorage.removeItem(`expense${expense.description}`)
-    let delExp= document.getElementById(`expense${expense.description}`)
-    expenseList.removeChild(delExp)
-}
-
-expenseList.appendChild(expenseLi)
-
-    })
 
 
 })
@@ -106,9 +77,9 @@ function editExpense(id){
  price.value=item.price
  let des=document.getElementById('description')
  des.value=item.description
+ category.value=item.category
 
-let expenseLi=document.getElementById(id)
-expenseLi.innerHTML=`${item.description} ${item.price} -  ${item.category}`
+deleteExpense(id)
 }
 
 
